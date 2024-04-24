@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Oblig 3</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script defer src="script.js"></script> <!-- Defer tells the script to not run before the html is loaded -->
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 col-md-4">
+            <h1>Bestilling av kinobilletter</h1>
+            <form class="form">
+                <div class="form-group">
+                    <label for="films">Velg film</label>
+                    <select id="films">
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="number">Antall</label> <input id="number" type="number" maxlength="2">
+                </div>
+                <div class="form-group">
+                    <label for="firstName">Fornavn</label> <input id="firstname" type="text">
+                </div>
+                <div class="form-group">
+                    <label for="lastName">Etternavn</label> <input id="lastname" type="text">
+                </div>
+                <div class="form-group">
+                    <label for="tlf">Telefonnr</label> <input id="tlf" type="text">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label> <input id="email" type="text">
+                </div>
+            </form>
+            <button class="btn-primary" id="buyTicket">Kjøp billett</button>
+        </div>
+        <div class="col-sm-12 col-md-8">
+            <h2>Alle billetter</h2>
+            <table class="summary-table" id="ticketsTable">
+                <tr>No tickets have been bought yet</tr>
+            </table>
+            <button class="btn-danger" id="deleteTickets" hidden="">Slett alle billettene</button>
+        </div>
+    </div>
+</div>
+</body>
+</html>
