@@ -1,5 +1,6 @@
 package com.example.oblig3;
 
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,23 +11,23 @@ import java.util.List;
 @RestController
 public class Controller {
     @Autowired
-    private TicketRepository rep;
+    TicketRepository ticketRepository;
     private String[] films = new String[]{"Aquaman","Argylle","Sau"};
-    @PostMapping("/register-ticket")
-    public void registerTicket(TicketInfo ticket){
-        rep.registerTicket(ticket);
-    }
-    @PostMapping("/get-tickets")
-    public List<TicketInfo> getTickets(){
-        return rep.getTickets();
-    }
     @PostMapping("/get-films")
     public String[]getFilms(){
         return films;
     }
+    @PostMapping("/register-ticket")
+    public void registerTicket(TicketInfo ticket){
+        ticketRepository.save(ticket);
+    }
+    @PostMapping("/get-tickets")
+    public List<TicketInfo> getTickets(){
+        return ticketRepository.findAll();
+    }
     @PostMapping("/delete-tickets")
     public void deleteTickets(){
-        rep.deleteTickets();
+        ticketRepository.deleteAll();
     }
 
 }

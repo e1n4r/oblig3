@@ -3,6 +3,7 @@ let films = []; //Local array containing the films
 
 $(function (){ //Ready function that runs every time the page loads
     getFilms();
+
 })
 function getFilms(){
     $("#films").html(`<option disabled selected hidden>Velg film her</option>`); //Resets the drop-down in the form to only containing the placeholder
@@ -16,9 +17,10 @@ function getFilms(){
 function fillOutArray(){
     $.post("/get-tickets", function (tickets){
         console.log(tickets);
+        console.log($("#ticketsTable"));
         $("#ticketsTable").html(""); //Clears the table first
         for (let film of films){ //Loops through all the films
-            $("#ticketsTable").append(`<tr><th>${film}</th></tr>`) //Adds the films as table headers
+            $("#ticketsTable").append(`<tr><th>${film}</th></tr>`); //Adds the films as table headers
             for (let ticket of tickets){
                 if (ticket.film === film){
                     $("#ticketsTable").append(ticketFormat(ticket)); //Loops through all the tickets to place each films' corresponding tickets underneath it
@@ -56,8 +58,9 @@ $("#buyTicket").click(function (){
     };
 
     if (valid){ //This section will only run if the input validation has passed
-        $.post("/register-ticket",ticket); //Adds the ticket to the server
-        fillOutArray();
+        $.post("/register-ticket",ticket, function (data, status){  //Adds the ticket to the database
+            fillOutArray()  //Fills out array when the ajax-request is finished
+        });
         $("#deleteTickets").show(); //Shows the delete button as there are now tickets that can be deleted
     }
 })
