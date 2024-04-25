@@ -3,7 +3,6 @@ let films = []; //Local array containing the films
 
 $(function (){ //Ready function that runs every time the page loads
     getFilms();
-
 })
 function getFilms(){
     $("#films").html(`<option disabled selected hidden>Velg film her</option>`); //Resets the drop-down in the form to only containing the placeholder
@@ -16,8 +15,6 @@ function getFilms(){
 }
 function fillOutArray(){
     $.post("/get-tickets", function (tickets){
-        console.log(tickets);
-        console.log($("#ticketsTable"));
         $("#ticketsTable").html(""); //Clears the table first
         for (let film of films){ //Loops through all the films
             $("#ticketsTable").append(`<tr><th>${film}</th></tr>`); //Adds the films as table headers
@@ -30,10 +27,11 @@ function fillOutArray(){
 
     })
 }
+//Function that returns html code showing ticket purchases
 function ticketFormat(ticket){
     return `<tr><td>${ticket.firstName} ${ticket.lastName} has ${ticket.numberOfTickets} ${getTicketText(ticket.numberOfTickets)}</td></tr>`;
 }
-//Fixes singular/plural grammar in the form
+//Fixes singular/plural grammar in the html code function above
 function getTicketText(numberOfTickets){
     if (numberOfTickets===1){
         return " ticket";
@@ -48,6 +46,7 @@ function getTicketText(numberOfTickets){
 $("#buyTicket").click(function (){
     valid = true; //Valid is true by default
 
+    //Creates a ticket object with identical attributes as the TicketInfo-class
     let ticket = {
         film: inputValidation($("#films").val(),"films"),
         numberOfTickets: inputValidation($("#number").val(),"number"),
@@ -62,6 +61,13 @@ $("#buyTicket").click(function (){
             fillOutArray()  //Fills out array when the ajax-request is finished
         });
         $("#deleteTickets").show(); //Shows the delete button as there are now tickets that can be deleted
+
+        //Clears the input fields
+        $("#number").val("");
+        $("#firstname").val("");
+        $("#lastname").val("");
+        $("#tlf").val("");
+        $("#email").val("");
     }
 })
 
@@ -70,7 +76,7 @@ $("#deleteTickets").click(function (){
     const confirmDelete = confirm("Are you sure you want to delete all tickets?"); //Shows a confirm dialog where the user gets the opportunity to abort the deletion
     if (confirmDelete){
         $.post("/delete-tickets"); //Clears the arraylist on the server
-        $("#ticketsTable").html("<tr>No tickets have been bought yet</tr>");
+        $("#ticketsTable").html("<tr>No tickets have been bought yet</tr>"); //Resets the table to the default text when no tickets have been bought
         $("#deleteTickets").hide(); //Hides the delete button again as it serves no purpose until a new ticket is bought
     }
 })
